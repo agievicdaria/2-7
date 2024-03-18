@@ -14,6 +14,21 @@ Money::Money(long hryvnia, unsigned char kopiyky) {
     this->kopiyky = kopiyky;
 }
 
+Money::Money(const Money& second) {
+    hryvnia = second.hryvnia;
+    kopiyky = second.kopiyky;
+}
+
+Money& Money::operator=(const Money& other) {
+    if (this == &other)
+        return *this;
+
+    hryvnia = other.hryvnia;
+    kopiyky = other.kopiyky;
+
+    return *this;
+}
+
 istream& operator>>(istream& in, Money& money) {
     cout << "Enter amount in hryvnia: ";
     in >> money.hryvnia;
@@ -92,4 +107,35 @@ bool Money::operator>(const Money& secondValue) const {
         return kopiyky > secondValue.kopiyky;
     }
     return hryvnia > secondValue.hryvnia;
+}
+
+Money& Money::operator++() {
+    ++hryvnia;
+    return *this;
+}
+
+Money Money::operator++(int) {
+    Money temp(*this);
+    ++kopiyky;
+    if (kopiyky == 100) {
+        ++hryvnia;
+        kopiyky = 0;
+    }
+    return temp;
+}
+
+Money& Money::operator--() {
+    --hryvnia;
+    return *this;
+}
+
+Money Money::operator--(int) {
+    Money temp(*this);
+    if (kopiyky == 0) {
+        --hryvnia;
+        kopiyky = 99;
+    } else {
+        --kopiyky;
+    }
+    return temp;
 }

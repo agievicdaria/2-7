@@ -6,16 +6,35 @@ using namespace std;
 
 Account::Account() {
     ownerLastName = "";
-    accountNumber = "";
+    accountNumber = 0;
     interestRate = 0.0;
     balance = Money();
 }
 
-Account::Account(const string& ownerLastName, const string& accountNumber, double interestRate, const Money& balance) {
+Account::Account(const string& ownerLastName, int accountNumber, double interestRate, const Money& balance) {
     this->ownerLastName = ownerLastName;
     this->accountNumber = accountNumber;
     this->interestRate = interestRate;
     this->balance = balance;
+}
+
+Account::Account(const Account& second) {
+    ownerLastName = second.ownerLastName;
+    accountNumber = second.accountNumber;
+    interestRate = second.interestRate;
+    balance = second.balance;
+}
+
+Account& Account::operator=(const Account& other) {
+    if (this == &other)
+        return *this;
+
+    ownerLastName = other.ownerLastName;
+    accountNumber = other.accountNumber;
+    interestRate = other.interestRate;
+    balance = other.balance;
+
+    return *this;
 }
 
 istream& operator>>(istream& in, Account& account) {
@@ -111,6 +130,29 @@ void Account::AddInterest() {
     Money interest = balance * interestRate;
     balance = balance + interest;
 }
+
+Account& Account::operator++() {
+    ++accountNumber;
+    return *this;
+}
+
+Account Account::operator++(int) {
+    Account temp(*this);
+    ++interestRate;
+    return temp;
+}
+
+Account& Account::operator--() {
+    --accountNumber;
+    return *this;
+}
+
+Account Account::operator--(int) {
+    Account temp(*this);
+    --interestRate;
+    return temp;
+}
+
 
 // Account Account::operator-(const Money& amount) const {
 //     Account newAccount(*this);

@@ -12,6 +12,7 @@ private:
 public:
     Money();
     Money(long hryvnia, unsigned char kopiyky);
+    Money(const Money& second);
 
     long GetHryvnia() const { return hryvnia; }
     unsigned char GetKopiyky() const { return kopiyky; }
@@ -24,6 +25,12 @@ public:
     bool operator==(const Money& secondValue) const;
     bool operator<(const Money& secondValue) const;
     bool operator>(const Money& secondValue) const;
+    Money& operator=(const Money& other); 
+
+    Money& operator++();
+    Money operator++(int);
+    Money& operator--();
+    Money operator--(int);
 
     friend istream& operator>>(istream& in, Money& money);
     friend ostream& operator<<(ostream& out, const Money& money);
