@@ -12,22 +12,12 @@ int main() {
     cin >> account;
     cout << account;
 
-    // Money withdrawAmount(100, 50);
-    // account = account - withdrawAmount;
     account.Withdraw(Money(200, 30));
     cout << account;
 
-    // Money depositAmount(200, 75);
-    // account = account + depositAmount;
     account.Deposit(Money(500, 25));
     cout << account;
 
-    // double interestRate;
-    // cout << "Enter interest rate to apply: ";
-    // cin >> interestRate;
-    // account = account + interestRate;
-
-    // account = account + account.GetInterestRate();
     account.AddInterest();
     cout << account;
 
@@ -35,13 +25,13 @@ int main() {
     cout << account;
 
     account.ConvertToDollars();
-    cout << "Balance in dollars: " << account.ToString() << endl;
+    cout << "Balance in dollars: " << account << endl;
 
     account.ConvertToEuros();
-    cout << "Balance in euros: " << account.ToString() << endl;
+    cout << "Balance in euros: " << account << endl;
 
     account.ConvertToHryvnya();
-    cout << "Balance in hryvnia: " << account.ToString() << endl;
+    cout << "Balance in hryvnia: " << account << endl;
 
     cout << "Balance in words: " << account.AmountInWords() << endl;
     

@@ -54,11 +54,7 @@ istream& operator>>(istream& in, Account& account) {
 }
 
 ostream& operator<<(ostream& out, const Account& account) {
-    out << "Owner: " << account.ownerLastName << endl;
-    out << "Account Number: " << account.accountNumber << endl;
-    out << "Interest Rate: " << account.interestRate << endl;
-    out << "Balance: " << account.balance.GetHryvnia() << "," << static_cast<int>(account.balance.GetKopiyky()) << endl;
-
+    out << string(account);
     return out;
 }
 
@@ -106,10 +102,14 @@ string Account::AmountInWords() const {
     return amountInWords;
 }
 
-string Account::ToString() const {
+Account::operator string() const {
     stringstream sout;
-    sout << balance.GetHryvnia() << "," << static_cast<int>(balance.GetKopiyky());
+    sout << "Owner: " << ownerLastName << endl;
+    sout << "Account Number: " << accountNumber << endl;
+    sout << "Interest Rate: " << interestRate << endl;
+    sout << "Balance: " << balance.GetHryvnia() << "," << static_cast<int>(balance.GetKopiyky()) << endl;
     return sout.str();
+
 }
 
 void Account::Withdraw(const Money& amount) {
@@ -137,9 +137,9 @@ Account& Account::operator++() {
 }
 
 Account Account::operator++(int) {
-    Account temp(*this);
+    Account a(*this);
     ++interestRate;
-    return temp;
+    return a;
 }
 
 Account& Account::operator--() {
@@ -148,9 +148,9 @@ Account& Account::operator--() {
 }
 
 Account Account::operator--(int) {
-    Account temp(*this);
+    Account a(*this);
     --interestRate;
-    return temp;
+    return a;
 }
 
 

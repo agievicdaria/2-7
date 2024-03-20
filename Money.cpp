@@ -44,9 +44,9 @@ ostream& operator<<(ostream& out, const Money& money) {
     return out;
 }
 
-Money Money::operator+(const Money& secondValue) const {
-    long totalHryvnia = hryvnia + secondValue.hryvnia;
-    int totalKopiyky = kopiyky + secondValue.kopiyky;
+Money operator+(const Money& firstValue, const Money& secondValue) {
+    long totalHryvnia = firstValue.hryvnia + secondValue.hryvnia;
+    int totalKopiyky = firstValue.kopiyky + secondValue.kopiyky;
 
     if (totalKopiyky >= 100) {
         totalHryvnia += totalKopiyky / 100;
@@ -56,9 +56,9 @@ Money Money::operator+(const Money& secondValue) const {
     return Money(totalHryvnia, static_cast<unsigned char>(totalKopiyky));
 }
 
-Money Money::operator-(const Money& secondValue) const {
-    long totalHryvnia = hryvnia - secondValue.hryvnia;
-    int totalKopiyky = kopiyky - secondValue.kopiyky;
+Money operator-(const Money& firstValue, const Money& secondValue) {
+    long totalHryvnia = firstValue.hryvnia - secondValue.hryvnia;
+    int totalKopiyky = firstValue.kopiyky - secondValue.kopiyky;
 
     if (totalKopiyky < 0) {
         totalHryvnia -= 1;
@@ -68,45 +68,45 @@ Money Money::operator-(const Money& secondValue) const {
     return Money(totalHryvnia, static_cast<unsigned char>(totalKopiyky));
 }
 
-Money Money::operator/(int divisor) const {
-    long totalHryvnia = hryvnia / divisor;
-    int totalKopiyky = (hryvnia % divisor) * 100 / divisor + kopiyky / divisor;
+Money operator/(const Money& value, int divisor) {
+    long totalHryvnia = value.hryvnia / divisor;
+    int totalKopiyky = (value.hryvnia % divisor) * 100 / divisor + value.kopiyky / divisor;
 
     return Money(totalHryvnia, static_cast<unsigned char>(totalKopiyky));
 }
 
-Money Money::operator/(double divisor) const {
-    double totalMoney = static_cast<double>(hryvnia * 100 + kopiyky) / divisor;
+Money operator/(const Money& value, double divisor) {
+    double totalMoney = static_cast<double>(value.hryvnia * 100 + value.kopiyky) / divisor;
     long totalHryvnia = static_cast<long>(totalMoney) / 100;
     int totalKopiyky = static_cast<int>(totalMoney) % 100;
 
     return Money(totalHryvnia, static_cast<unsigned char>(totalKopiyky));
 }
 
-Money Money::operator*(double multiplier) const {
-    double totalMoney = static_cast<double>(hryvnia * 100 + kopiyky) * multiplier;
+Money operator*(const Money& value, double multiplier) {
+    double totalMoney = static_cast<double>(value.hryvnia * 100 + value.kopiyky) * multiplier;
     long totalHryvnia = static_cast<long>(totalMoney) / 100;
     int totalKopiyky = static_cast<int>(totalMoney) % 100;
 
     return Money(totalHryvnia, static_cast<unsigned char>(totalKopiyky));
 }
 
-bool Money::operator==(const Money& secondValue) const {
-    return hryvnia == secondValue.hryvnia && kopiyky == secondValue.kopiyky;
+bool operator==(const Money& firstValue, const Money& secondValue) {
+    return firstValue.hryvnia == secondValue.hryvnia && firstValue.kopiyky == secondValue.kopiyky;
 }
 
-bool Money::operator<(const Money& secondValue) const {
-    if (hryvnia == secondValue.hryvnia) {
-        return kopiyky < secondValue.kopiyky;
+bool operator<(const Money& firstValue, const Money& secondValue) {
+    if (firstValue.hryvnia == secondValue.hryvnia) {
+        return firstValue.kopiyky < secondValue.kopiyky;
     }
-    return hryvnia < secondValue.hryvnia;
+    return firstValue.hryvnia < secondValue.hryvnia;
 }
 
-bool Money::operator>(const Money& secondValue) const {
-    if (hryvnia == secondValue.hryvnia) {
-        return kopiyky > secondValue.kopiyky;
+bool operator>(const Money& firstValue, const Money& secondValue) {
+    if (firstValue.hryvnia == secondValue.hryvnia) {
+        return firstValue.kopiyky > secondValue.kopiyky;
     }
-    return hryvnia > secondValue.hryvnia;
+    return firstValue.hryvnia > secondValue.hryvnia;
 }
 
 Money& Money::operator++() {
@@ -115,13 +115,13 @@ Money& Money::operator++() {
 }
 
 Money Money::operator++(int) {
-    Money temp(*this);
+    Money m(*this);
     ++kopiyky;
     if (kopiyky == 100) {
         ++hryvnia;
         kopiyky = 0;
     }
-    return temp;
+    return m;
 }
 
 Money& Money::operator--() {
@@ -130,12 +130,12 @@ Money& Money::operator--() {
 }
 
 Money Money::operator--(int) {
-    Money temp(*this);
+    Money m(*this);
     if (kopiyky == 0) {
         --hryvnia;
         kopiyky = 99;
     } else {
         --kopiyky;
     }
-    return temp;
+    return m;
 }

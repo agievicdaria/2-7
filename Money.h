@@ -16,22 +16,23 @@ public:
 
     long GetHryvnia() const { return hryvnia; }
     unsigned char GetKopiyky() const { return kopiyky; }
+    void SetHryvnia(long value) { hryvnia = value; }
+    void SetKopiyky(unsigned char value) { kopiyky = value; }
 
-    Money operator+(const Money& secondValue) const;
-    Money operator-(const Money& secondValue) const;
-    Money operator/(int divisor) const;
-    Money operator/(double divisor) const;
-    Money operator*(double multiplier) const;
-    bool operator==(const Money& secondValue) const;
-    bool operator<(const Money& secondValue) const;
-    bool operator>(const Money& secondValue) const;
+    friend Money operator+(const Money& firstValue, const Money& secondValue);
+    friend Money operator-(const Money& firstValue, const Money& secondValue);
+    friend Money operator/(const Money& value, int divisor);
+    friend Money operator/(const Money& value, double divisor);
+    friend Money operator*(const Money& value, double multiplier);
+    friend bool operator==(const Money& firstValue, const Money& secondValue);
+    friend bool operator<(const Money& firstValue, const Money& secondValue);
+    friend bool operator>(const Money& firstValue, const Money& secondValue);
+
     Money& operator=(const Money& other); 
-
     Money& operator++();
     Money operator++(int);
     Money& operator--();
     Money operator--(int);
-
     friend istream& operator>>(istream& in, Money& money);
     friend ostream& operator<<(ostream& out, const Money& money);
 };
